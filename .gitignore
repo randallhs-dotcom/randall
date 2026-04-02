@@ -15,3 +15,6 @@ npm-debug.log*
 *.tmp
 *.log
 skills-main/
+
+# RD 私人筆記
+RD/
