@@ -1,0 +1,46 @@
+name: PR Code Review Check
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  html-lint:
+    name: HTML Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install htmlhint
+        run: npm install -g htmlhint
+
+      - name: Run HTMLHint
+        run: |
+          htmlhint "HTML/**/*.html" --config .htmlhintrc 2>&1 || true
+
+  label-pr:
+    name: Label PR as needs-review
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add needs-review label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['needs-review']
+            }).catch(e => {
+              // Label may not exist yet, ignore error
+              console.log('Note: ' + e.message);
+            });
