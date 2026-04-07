@@ -259,7 +259,7 @@
         <div class="hero-right pc_show"><img src="./images/category-hobby-right.png"></div>
       </div>
       <dl class="Hashtag">
-        <dd>
+        <dd id="tags-section02">
           <strong><a
               href="https://www.ruten.com.tw/find/?q=Yu-Gi-Oh%20psa10&platform=ebay&shipfee=0&sort=new%2Fdc"><span>遊戲王PSA</span></a></strong>
           <strong><a
@@ -356,7 +356,7 @@
         </div>
       </div>
       <dl class="Hashtag">
-        <dd>
+        <dd id="tags-section05">
           <strong><a
               href="https://www.ruten.com.tw/find/?q=blue%20eyes%20white%20dragon%20card&platform=ebay&shipfee=0"><span>青眼白龍</span></a></strong>
           <strong><a
@@ -445,7 +445,7 @@
         </div>
       </div>
       <dl class="Hashtag">
-        <dd>
+        <dd id="tags-section04">
           <strong><a
               href="https://www.ruten.com.tw/find/?q=Pokemon%20Japanese%20card&platform=ebay&shipfee=0&cateid=00050014"><span>JP日本卡</span></a></strong>
           <strong><a
@@ -534,7 +534,7 @@
         </div>
       </div>
       <dl class="Hashtag">
-        <dd>
+        <dd id="tags-section03">
           <strong><a
               href="https://www.ruten.com.tw/find/?q=Pokemon%20booster%20pack&platform=ebay&shipfee=0"><span>booster
                 pack加強包</span></a></strong>
@@ -627,7 +627,7 @@
         </div>
       </div>
       <dl class="Hashtag">
-        <dd>
+        <dd id="tags-section06">
           <strong><a
               href="https://www.ruten.com.tw/find/?q=One%20Piece%20manga%20%20card&platform=ebay&shipfee=0"><span>漫畫稀有</span></a></strong>
           <strong><a href="https://www.ruten.com.tw/find/?q=One%20Piece%20SEC%20card&platform=ebay&shipfee=0"><span>SEC
@@ -718,7 +718,7 @@
         </div>
       </div>
       <dl class="Hashtag">
-        <dd>
+        <dd id="tags-section09">
           <strong><a
               href="https://www.ruten.com.tw/find/?q=Weiss%20Schwarz%20signed%20&platform=ebay&shipfee=0&sort=ords%2Fdc"><span>簽名卡</span></a></strong>
           <strong><a
@@ -807,7 +807,7 @@
         </div>
       </div>
       <dl class="Hashtag">
-        <dd>
+        <dd id="tags-section07">
           <strong><a
               href="https://www.ruten.com.tw/find/?q=Dragon%20Ball%20Super%20card&platform=ebay&shipfee=0"><span>超卡</span></a></strong>
           <strong><a
@@ -898,7 +898,7 @@
         </div>
       </div>
       <dl class="Hashtag">
-        <dd>
+        <dd id="tags-section10">
           <strong><a
               href="https://www.ruten.com.tw/find/?q=MTG%20foil%20card&platform=ebay&shipfee=0"><span>閃卡</span></a></strong>
           <strong><a
@@ -1273,6 +1273,68 @@
         });
     })();
   </script>
+
+  <script>
+    // === API Tag 串接 ===
+    (function () {
+      var TAG_API_URL = 'https://pub.stage.ruten.com.tw/api/ebay_japan_tag.json';
+
+      // 分類代碼 → Hashtag dd 的 id 對應表
+      var tagCategoryMap = {
+        'A': 'tags-section02',   // 投資從這裡開始
+        'B': 'tags-section05',   // 遊戲王召喚系列
+        'C': 'tags-section04',   // 寶可夢訓練家
+        'D': 'tags-section03',   // 寶可夢卡包系列
+        'E': 'tags-section06',   // 航海王收藏
+        'F': 'tags-section09',   // 黑白雙翼
+        'G': 'tags-section07',   // 七龍珠燃燒系列
+        'H': 'tags-section10'    // 魔法風雲會
+      };
+
+      function getCategoryKey(category) {
+        return category ? category.trim().charAt(0) : '';
+      }
+
+      fetch(TAG_API_URL)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          // 依分類歸類 tag 資料
+          var grouped = {};
+          data.forEach(function (item) {
+            var key = getCategoryKey(item.category);
+            if (!grouped[key]) grouped[key] = [];
+            grouped[key].push(item);
+          });
+
+          // 寫入各 section 的 Hashtag
+          Object.keys(tagCategoryMap).forEach(function (key) {
+            var dd = document.getElementById(tagCategoryMap[key]);
+            if (!dd) return;
+            var tags = grouped[key];
+            if (!tags || tags.length === 0) return;
+
+            // 清空既有靜態標籤，動態補入
+            dd.innerHTML = '';
+            tags.forEach(function (tag) {
+              var strong = document.createElement('strong');
+              var a = document.createElement('a');
+              a.href = tag.url;
+              a.target = '_blank';
+              a.rel = 'noopener';
+              var span = document.createElement('span');
+              span.textContent = tag.title;
+              a.appendChild(span);
+              strong.appendChild(a);
+              dd.appendChild(strong);
+            });
+          });
+        })
+        .catch(function (err) {
+          console.error('[TAG API] 無法載入標籤資料:', err);
+        });
+    })();
+  </script>
+
 
 </body>
 
