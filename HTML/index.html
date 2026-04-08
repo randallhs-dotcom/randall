@@ -1206,9 +1206,11 @@
   </script>
 
   <script>
-    // === API 商品串接 ===
+    // === API 商品串接（含幣別轉換） ===
     (function () {
-      var API_URL = 'https://pub.stage.ruten.com.tw/api/ebay_japan_data.json';
+      var DATA_URL = 'https://pub.stage.ruten.com.tw/api/ebay_japan_data.json';
+      var EXCHANGE_URL = 'https://rtapi.ruten.com.tw/api/exchange/v1/index.php/currency?cur=usd,jpy,cad';
+      var PROD_API_BASE = 'https://rtapi.ruten.com.tw/api/prod/v3/index.php/prod?id=';
 
       // 分類代碼 → grid 容器 id 的對應表
       var categoryMap = {
@@ -1228,11 +1230,12 @@
         return category ? category.trim().charAt(0) : '';
       }
 
-      // 建立單一商品卡片 HTML
-      // showPromoMini: 是否在 imgbox 內顯示 promo-tag-mini（僅 section_02 使用）
-      function buildCardHTML(item, showPromoMini) {
+      // 建立單一商品卡片 HTML（新增 twdPrice 參數，處理幣別轉換後呈現）
+      function buildCardHTML(item, showPromoMini, twdPrice) {
         var link = 'https://www.ruten.com.tw/item/show?' + item.gno;
         var miniTag = showPromoMini ? '<div class="promo-tag-mini"> PSA 投資首選 </div>' : '';
+        var priceText = (twdPrice != null) ? Math.round(twdPrice).toLocaleString() : '--';
+
         return '<div class="grid-item">' +
           '<a href="' + link + '">' +
           '<div class="imgbox">' +
@@ -1242,15 +1245,32 @@
           '<div class="promo-tag">' + item.subtitle + '</div>' +
           '<div class="pd-content">' +
           '<span class="name">' + item.title + '</span>' +
-          '<div class="price">約$<b>--</b></div>' +
+          '<div class="price">約$<b>' + priceText + '</b></div>' +
           '</div>' +
           '</a>' +
           '</div>';
       }
 
-      fetch(API_URL)
-        .then(function (res) { return res.json(); })
-        .then(function (data) {
+      Promise.all([
+        fetch(EXCHANGE_URL).then(function (r) { return r.json(); }),
+        fetch(DATA_URL).then(function (r) { return r.json(); })
+      ])
+        .then(function (results) {
+          var exchangeData = results[0];
+          var data = results[1];
+
+          // 處理匯率資料 -> key 大寫的 rateMap { USD: 32.xx, JPY: 0.22... }
+          var rateMap = { TWD: 1 };
+          if (Array.isArray(exchangeData)) {
+            exchangeData.forEach(function (entry) {
+              if (entry.cur) rateMap[entry.cur.toUpperCase()] = entry.rate || 1;
+            });
+          } else if (exchangeData && typeof exchangeData === 'object') {
+            Object.keys(exchangeData).forEach(function (k) {
+              rateMap[k.toUpperCase()] = exchangeData[k] || 1;
+            });
+          }
+
           // 依分類歸類商品
           var grouped = {};
           data.forEach(function (item) {
@@ -1259,21 +1279,41 @@
             grouped[key].push(item);
           });
 
-          // 填入各 section
-          Object.keys(categoryMap).forEach(function (key) {
-            var grid = document.getElementById(categoryMap[key]);
-            if (!grid) return;
-            var items = grouped[key] || [];
-            if (items.length === 0) return;
-            // 清除既有靜態卡片
-            grid.innerHTML = '';
-            items.forEach(function (item) {
-              grid.insertAdjacentHTML('beforeend', buildCardHTML(item, key === 'A'));
+          // 將所有商品的 gno 取出，批次查詢 Prod API
+          var allGnos = data.map(function (item) { return item.gno; }).join(',');
+
+          return fetch(PROD_API_BASE + allGnos)
+            .then(function (r) { return r.json(); })
+            .then(function (prodData) {
+              // 建立 gno → 台幣換算後價格的對照表
+              var priceMap = {};
+              (Array.isArray(prodData) ? prodData : []).forEach(function (prod) {
+                var rawPrice = prod.PriceRange && prod.PriceRange[0];
+                var cur = (prod.Currency || 'TWD').toUpperCase();
+                var rate = (rateMap[cur] != null) ? rateMap[cur] : 1;
+                if (rawPrice != null) {
+                  priceMap[prod.Id] = rawPrice * rate;
+                }
+              });
+
+              // 填入各 section
+              Object.keys(categoryMap).forEach(function (key) {
+                var grid = document.getElementById(categoryMap[key]);
+                if (!grid) return;
+                var items = grouped[key] || [];
+                if (items.length === 0) return;
+
+                // 清除既有靜態卡片
+                grid.innerHTML = '';
+                items.forEach(function (item) {
+                  var twdPrice = (priceMap[item.gno] != null) ? priceMap[item.gno] : null;
+                  grid.insertAdjacentHTML('beforeend', buildCardHTML(item, key === 'A', twdPrice));
+                });
+              });
             });
-          });
         })
         .catch(function (err) {
-          console.error('[API] 無法載入商品資料:', err);
+          console.error('[API] 無法載入商品/價格資料:', err);
         });
     })();
   </script>
