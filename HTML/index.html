@@ -1282,7 +1282,7 @@
               var rateMap = { TWD: 1 };
               if (Array.isArray(exchangeData)) {
                 exchangeData.forEach(function (e) {
-                  var cur = e.cur || e.Currency;
+                  var cur = e.cur || e.Cur;
                   var rate = e.rate || e.Rate;
                   if (cur) rateMap[cur.toUpperCase()] = parseFloat(rate) || 1;
                 });
