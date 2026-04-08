@@ -1206,7 +1206,7 @@
   </script>
 
   <script>
-    // === API 商品串接（含幣別轉換） ===
+    // === API 商品串接（含幣別轉換 - 增強解析版） ===
     (function () {
       var DATA_URL = 'https://pub.stage.ruten.com.tw/api/ebay_japan_data.json';
       var EXCHANGE_URL = 'https://rtapi.ruten.com.tw/api/exchange/v1/index.php/currency?cur=usd,jpy,cad';
@@ -1266,7 +1266,9 @@
           });
 
           // ── Step 2：嘗試抓匯率 + prod 價格，更新已渲染卡片的 price 欄位 ──
-          var allGnos = data.map(function (item) { return item.gno; }).join(',');
+          var allGnos = data.map(function (item) { return item.gno; }).filter(Boolean).join(',');
+
+          if (!allGnos) return;
 
           Promise.all([
             fetch(EXCHANGE_URL).then(function (r) { return r.json(); }),
@@ -1276,33 +1278,63 @@
               var exchangeData = results[0];
               var prodData = results[1];
 
-              // 建立匯率對照表
+              // 建立匯率對照表 (相容大小寫)
               var rateMap = { TWD: 1 };
               if (Array.isArray(exchangeData)) {
                 exchangeData.forEach(function (e) {
-                  if (e.cur) rateMap[e.cur.toUpperCase()] = e.rate || 1;
+                  var cur = e.cur || e.Currency;
+                  var rate = e.rate || e.Rate;
+                  if (cur) rateMap[cur.toUpperCase()] = parseFloat(rate) || 1;
                 });
               } else if (exchangeData && typeof exchangeData === 'object') {
                 Object.keys(exchangeData).forEach(function (k) {
-                  rateMap[k.toUpperCase()] = exchangeData[k] || 1;
+                  rateMap[k.toUpperCase()] = parseFloat(exchangeData[k]) || 1;
                 });
               }
 
-              // 建立 gno → 台幣價格對照表
+              // 解析 Prod API 回傳結構 (相容 data 或 list 包裝)
+              var prodList = [];
+              if (Array.isArray(prodData)) {
+                prodList = prodData;
+              } else if (prodData && Array.isArray(prodData.data)) {
+                prodList = prodData.data;
+              } else if (prodData && Array.isArray(prodData.list)) {
+                prodList = prodData.list;
+              }
+
+              console.log('[Debug] Prod API 資料擷取:', prodList);
+
+              // 建立 gno → 台幣價格對照表 (相容欄位大小寫)
               var priceMap = {};
-              (Array.isArray(prodData) ? prodData : []).forEach(function (prod) {
-                var rawPrice = prod.PriceRange && prod.PriceRange[0];
-                var cur = (prod.Currency || 'TWD').toUpperCase();
+              prodList.forEach(function (prod) {
+                var prodId = prod.Id || prod.id || prod.ID;
+
+                var rawPrice = null;
+                if (prod.PriceRange && prod.PriceRange.length > 0) rawPrice = prod.PriceRange[0];
+                else if (prod.priceRange && prod.priceRange.length > 0) rawPrice = prod.priceRange[0];
+                else if (prod.price != null) rawPrice = prod.price;
+                else if (prod.Price != null) rawPrice = prod.Price;
+
+                var curStr = prod.Currency || prod.currency || 'TWD';
+                var cur = curStr.toUpperCase();
                 var rate = (rateMap[cur] != null) ? rateMap[cur] : 1;
-                if (rawPrice != null) priceMap[prod.Id] = rawPrice * rate;
+
+                if (prodId != null && rawPrice != null) {
+                  priceMap[String(prodId)] = parseFloat(rawPrice) * rate;
+                }
               });
+
+              console.log('[Debug] 準備更新畫面的價格對照表:', priceMap);
 
               // 更新已渲染卡片的 price 欄位
               Object.keys(priceMap).forEach(function (gno) {
                 var card = document.querySelector('.grid-item[data-gno="' + gno + '"]');
                 if (!card) return;
                 var b = card.querySelector('.price b');
-                if (b) b.textContent = Math.round(priceMap[gno]).toLocaleString();
+                // 確保價格是有效數字才更新
+                if (b && !isNaN(priceMap[gno])) {
+                  b.textContent = Math.round(priceMap[gno]).toLocaleString();
+                }
               });
             })
             .catch(function (err) {
