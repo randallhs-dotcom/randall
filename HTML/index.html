@@ -1307,7 +1307,7 @@
               // 建立 gno → 台幣價格對照表 (相容欄位大小寫)
               var priceMap = {};
               prodList.forEach(function (prod) {
-                var prodId = prod.Id || prod.id || prod.ID;
+                var prodId = prod.ProdId || prod.Id || prod.id || prod.ID;
 
                 var rawPrice = null;
                 if (prod.PriceRange && prod.PriceRange.length > 0) rawPrice = prod.PriceRange[0];
