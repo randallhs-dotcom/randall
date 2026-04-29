@@ -18,3 +18,32 @@ skills-main/
 
 # RD 私人筆記
 RD/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.env
+
+# AI 第三方參考專案（只讀參考用，不推送）
+AI/notebooklm-py-main/
+AI/antigravitymcp-figma/
+AI/awesome-design-md-main/
+
+# 自動化工具（不推送）
+figma-mcp/
+html-fetch/
+html-fetch.skill
+push.sh
+
+# Agent 設定
+.agent/
+
+# 暫時性報告與說明文件
+typography-analysis-report.md
+🚀_Figma_MCP_已就緒.txt
+task.md
+.cursor/

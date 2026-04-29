@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VIP 資格通知</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: "PingFang TC", system-ui, -apple-system, sans-serif; }
+  .dialog-action-button {
+    display: flex;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+  }
+  @media (min-width: 768px) {
+    .dialog-action-button {
+      padding: 16px 32px;
+      gap: 8px;
+    }
+  }
+  .fade-in    { animation: fadeIn .2s ease-out forwards; }
+  .dialog-pop { animation: popIn  .25s cubic-bezier(.2,.9,.3,1.2) forwards; }
+  @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes popIn  {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(.9); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1);  }
+  }
+  /* Shadow/Default/Level 3 — 來源 Design System Showcase,單層 token 精確值 */
+  .shadow-dialog {
+    box-shadow: 0 8px 16px 0 rgba(13, 23, 102, .10);
+  }
+</style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- ============== Demo (上線時移除 main) ============== -->
+<main class="max-w-5xl mx-auto p-8">
+  <h1 class="text-2xl font-bold text-[#33343B]">2026 策展頁 · VIP 資格通知 Dialog</h1>
+  <p class="mt-2 text-sm text-gray-500">
+    載入時呼叫 API 檢查 VIP 資格。<br/>
+    <code class="bg-gray-200 px-1 rounded">?debug=1</code> 預覽:已符合 VIP 資格(可購買);
+    <code class="bg-gray-200 px-1 rounded">?debug=2</code> 預覽:尚未達到 VIP 資格;
+    <code class="bg-gray-200 px-1 rounded">?debug=3</code> 預覽:已符合 VIP 資格(尚未開賣)。
+  </p>
+  <div class="mt-6 flex gap-3 flex-wrap">
+    <button id="btn-show-vip"
+            class="inline-flex items-center rounded-[5px] bg-[#FFA348] px-5 py-2.5 text-white font-medium text-base">
+      預覽:已符合 VIP 資格(可購買)
+    </button>
+    <button id="btn-show-notyet"
+            class="inline-flex items-center rounded-[5px] bg-[#FFA348] px-5 py-2.5 text-white font-medium text-base">
+      預覽:已符合 VIP 資格(尚未開賣)
+    </button>
+    <button id="btn-show-progress"
+            class="inline-flex items-center rounded-[5px] bg-white px-5 py-2.5 text-[#FFA348] font-medium text-base border border-[#FFA348] hover:bg-orange-50">
+      預覽:尚未達到 VIP 資格
+    </button>
+  </div>
+</main>
+
+<!-- ============== VIP Dialog — 已符合 VIP 資格(可購買) ============== -->
+<div id="vip-dialog" class="fixed inset-0 z-50 hidden">
+  <div id="vip-dialog-backdrop" class="absolute inset-0 bg-[#161619]/60 fade-in"></div>
+
+  <div class="dialog-pop absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+              w-[260px] md:w-[416px] rounded-[5px] bg-white shadow-dialog
+              pt-8 px-5 pb-5
+              md:pt-8 md:px-8 md:pb-8"
+       role="dialog" aria-modal="true" aria-labelledby="vip-dialog-title">
+
+    <button id="vip-dialog-close" aria-label="關閉"
+            class="absolute top-4 right-4 w-6 h-6 rounded-full bg-white/60 hover:bg-white
+                   flex items-center justify-center text-[#33343B]">
+      <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
+      </svg>
+    </button>
+
+    <h2 id="vip-dialog-title"
+        class="text-center text-[#33343B] text-base md:text-xl leading-6 md:leading-[30px] font-bold tracking-wide">
+      已符合VIP資格
+    </h2>
+
+    <div class="mt-6 flex justify-center">
+      <img src="./vip-badge.png" alt="VIP"
+           class="w-[100px] h-[100px] object-contain" />
+    </div>
+
+    <p class="mt-6 md:mt-8 text-left text-sm md:text-base leading-[22px] md:leading-6 text-[#33343B]">
+      太棒了！您具備 VIP 選購權限！<br/>
+      快去看看只有你能買到的酷東西
+    </p>
+
+    <div class="mt-5 md:mt-6 flex justify-center">
+      <a id="vip-dialog-cta" href="#"
+         class="dialog-action-button rounded-[5px] bg-[#FFA348]
+                text-white font-medium text-base
+                hover:brightness-95 active:brightness-90 transition">
+        前往選購
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============== VIP NotYet Dialog — 已符合 VIP 資格(尚未開賣) ============== -->
+<div id="vip-notyet-dialog" class="fixed inset-0 z-50 hidden">
+  <div id="vip-notyet-dialog-backdrop" class="absolute inset-0 bg-[#161619]/60 fade-in"></div>
+
+  <!-- MB: 260×322, padding 32/20/20/20 | PC: 416×384, padding 32/32/24/32 -->
+  <div class="dialog-pop absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+              w-[260px] md:w-[416px] rounded-[5px] bg-white shadow-dialog
+              pt-8 pr-5 pb-5 pl-5
+              md:pt-8 md:pr-8 md:pb-6 md:pl-8"
+       role="dialog" aria-modal="true" aria-labelledby="vip-notyet-dialog-title">
+
+    <button id="vip-notyet-dialog-close" aria-label="關閉"
+            class="absolute top-4 right-4 w-6 h-6 rounded-full bg-white/60 hover:bg-white
+                   flex items-center justify-center text-[#33343B]">
+      <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
+      </svg>
+    </button>
+
+    <h2 id="vip-notyet-dialog-title"
+        class="text-center text-[#33343B] text-base md:text-xl leading-6 md:leading-[30px] font-bold tracking-wide">
+      已符合VIP資格
+    </h2>
+
+    <div class="mt-6 flex justify-center">
+      <img src="./vip-badge.png" alt="VIP"
+           class="w-[100px] h-[100px] object-contain" />
+    </div>
+
+    <p class="mt-6 text-left text-sm md:text-base leading-[22px] md:leading-6 text-[#33343B]">
+      太棒了！您具備 VIP 選購權限！<br/>
+      您的入場時間為：<span id="vip-notyet-date">{活動開始日期}</span><br/>
+      記得準時回來喔！
+    </p>
+
+    <!-- Footer: Ghost (no border) + Solid,兩顆各佔一半撐滿整列 -->
+    <div class="mt-6 flex items-center gap-1 md:gap-2">
+      <a id="vip-notyet-dialog-rules" href="#"
+         class="dialog-action-button flex-1 rounded-[5px] whitespace-nowrap
+                bg-transparent text-[#FFA348] font-medium
+                text-base
+                hover:bg-orange-50 transition">
+        前往活動辦法
+      </a>
+      <a id="vip-notyet-dialog-cta" href="#"
+         class="dialog-action-button flex-1 rounded-[5px] whitespace-nowrap
+                bg-[#FFA348] text-white font-medium
+                text-base
+                hover:brightness-95 active:brightness-90 transition">
+        繼續逛逛
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============== Progress Dialog — 尚未達到 VIP 資格 ============== -->
+<div id="progress-dialog" class="fixed inset-0 z-50 hidden">
+  <div id="progress-dialog-backdrop" class="absolute inset-0 bg-[#161619]/60 fade-in"></div>
+
+  <div class="dialog-pop absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+              w-[260px] md:w-[416px] rounded-[5px] bg-white shadow-dialog
+              pt-8 pr-5 pb-5 pl-5
+              md:pt-8 md:pr-8 md:pb-6 md:pl-8"
+       role="dialog" aria-modal="true" aria-labelledby="progress-dialog-title">
+
+    <button id="progress-dialog-close" aria-label="關閉"
+            class="absolute top-4 right-4 w-6 h-6 rounded-full bg-white/60 hover:bg-white
+                   flex items-center justify-center text-[#33343B]">
+      <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
+      </svg>
+    </button>
+
+    <h2 id="progress-dialog-title"
+        class="text-center text-[#33343B] text-base md:text-xl leading-6 md:leading-[30px] font-bold tracking-wide">
+      尚未達到 VIP 資格
+    </h2>
+
+    <div class="mt-6 flex justify-center">
+      <img src="./vip-badge-locked.png" alt="VIP (locked)"
+           class="w-[100px] h-[100px] object-contain" />
+    </div>
+
+    <p class="mt-6 text-left text-sm md:text-base leading-[22px] md:leading-6 text-[#33343B]">
+      差一點就能解鎖 VIP！<br/>
+      您目前的進度：$ <span id="progress-spent">{已消費額}</span><br/>
+      再消費 $ <span id="progress-remaining">{剩餘金額}</span><br/>
+      就能選購 VIP 限定商品！
+    </p>
+
+    <div class="mt-6 flex items-center gap-1 md:gap-2">
+      <a id="progress-dialog-rules" href="#"
+         class="dialog-action-button flex-1 rounded-[5px] whitespace-nowrap
+                bg-transparent text-[#FFA348] font-medium
+                text-base
+                hover:bg-orange-50 transition">
+        前往活動辦法
+      </a>
+      <a id="progress-dialog-cta" href="#"
+         class="dialog-action-button flex-1 rounded-[5px] whitespace-nowrap
+                bg-[#FFA348] text-white font-medium
+                text-base
+                hover:brightness-95 active:brightness-90 transition">
+        前往選購
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============== Scripts ============== -->
+<script>
+(function () {
+  'use strict';
+
+  // ====== 設定 ======
+  var VIP_CHECK_API = '/api/member/vip-status';  // TODO: 換成實際 endpoint
+
+  var BUY_URL        = '#';           // 前往選購
+  var RULES_URL      = '#';           // 前往活動辦法
+  var KEEP_BROWSE_URL = '#';          // 繼續逛逛
+
+  // 活動開始日期顯示文字(用於「尚未開賣」Dialog)
+  var EVENT_START_DATE_TEXT = '5/10(日)';
+
+  // 活動期間 5/10 - 5/17
+  var CAMPAIGN_START = new Date('2026-05-10T00:00:00+08:00');
+  var CAMPAIGN_END   = new Date('2026-05-17T23:59:59+08:00');
+  var ENFORCE_WINDOW = false;
+
+  // ====== DOM ======
+  var vipDialog    = document.getElementById('vip-dialog');
+  var vipBackdrop  = document.getElementById('vip-dialog-backdrop');
+  var vipCloseBtn  = document.getElementById('vip-dialog-close');
+  var vipCta       = document.getElementById('vip-dialog-cta');
+
+  var notyetDialog   = document.getElementById('vip-notyet-dialog');
+  var notyetBackdrop = document.getElementById('vip-notyet-dialog-backdrop');
+  var notyetCloseBtn = document.getElementById('vip-notyet-dialog-close');
+  var notyetCta      = document.getElementById('vip-notyet-dialog-cta');
+  var notyetRules    = document.getElementById('vip-notyet-dialog-rules');
+  var notyetDateEl   = document.getElementById('vip-notyet-date');
+
+  var progDialog    = document.getElementById('progress-dialog');
+  var progBackdrop  = document.getElementById('progress-dialog-backdrop');
+  var progCloseBtn  = document.getElementById('progress-dialog-close');
+  var progCta       = document.getElementById('progress-dialog-cta');
+  var progRules     = document.getElementById('progress-dialog-rules');
+  var progSpent     = document.getElementById('progress-spent');
+  var progRemaining = document.getElementById('progress-remaining');
+
+  var previewVip     = document.getElementById('btn-show-vip');
+  var previewNotyet  = document.getElementById('btn-show-notyet');
+  var previewProg    = document.getElementById('btn-show-progress');
+
+  // ====== Helpers ======
+  function show(el) { if (el) el.classList.remove('hidden'); }
+  function hide(el) { if (el) el.classList.add('hidden'); }
+  function hideAll() { hide(vipDialog); hide(notyetDialog); hide(progDialog); }
+
+  function formatNumber(n) {
+    if (n === null || n === undefined || isNaN(n)) return '';
+    return Number(n).toLocaleString('zh-Hant-TW');
+  }
+
+  function pick(obj, keys) {
+    if (!obj) return undefined;
+    for (var i = 0; i < keys.length; i++) {
+      if (obj[keys[i]] !== undefined) return obj[keys[i]];
+    }
+    if (obj.data) {
+      for (var j = 0; j < keys.length; j++) {
+        if (obj.data[keys[j]] !== undefined) return obj.data[keys[j]];
+      }
+    }
+    return undefined;
+  }
+
+  function renderProgress(spent, remaining) {
+    if (progSpent)     progSpent.textContent     = formatNumber(spent);
+    if (progRemaining) progRemaining.textContent = formatNumber(remaining);
+  }
+  function renderDate(txt) {
+    if (notyetDateEl) notyetDateEl.textContent = txt || EVENT_START_DATE_TEXT;
+  }
+
+  function showVip()          { hideAll(); show(vipDialog); }
+  function showVipNotyet(txt) { renderDate(txt); hideAll(); show(notyetDialog); }
+  function showProgress(spent, remaining) {
+    renderProgress(spent, remaining);
+    hideAll(); show(progDialog);
+  }
+
+  // ====== 事件 ======
+  vipCloseBtn    && vipCloseBtn.addEventListener('click',    function(){ hide(vipDialog); });
+  vipBackdrop    && vipBackdrop.addEventListener('click',    function(){ hide(vipDialog); });
+  notyetCloseBtn && notyetCloseBtn.addEventListener('click', function(){ hide(notyetDialog); });
+  notyetBackdrop && notyetBackdrop.addEventListener('click', function(){ hide(notyetDialog); });
+  progCloseBtn   && progCloseBtn.addEventListener('click',   function(){ hide(progDialog); });
+  progBackdrop   && progBackdrop.addEventListener('click',   function(){ hide(progDialog); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') hideAll();
+  });
+
+  if (BUY_URL && BUY_URL !== '#') {
+    if (vipCta)  vipCta.setAttribute('href', BUY_URL);
+    if (progCta) progCta.setAttribute('href', BUY_URL);
+  }
+  if (KEEP_BROWSE_URL && KEEP_BROWSE_URL !== '#' && notyetCta) {
+    notyetCta.setAttribute('href', KEEP_BROWSE_URL);
+  }
+  if (RULES_URL && RULES_URL !== '#') {
+    if (progRules)   progRules.setAttribute('href', RULES_URL);
+    if (notyetRules) notyetRules.setAttribute('href', RULES_URL);
+  }
+
+  previewVip    && previewVip.addEventListener('click', showVip);
+  previewNotyet && previewNotyet.addEventListener('click', function(){ showVipNotyet(); });
+  previewProg   && previewProg.addEventListener('click', function(){ showProgress(3200, 1800); });
+
+  // ====== debug 模式 ======
+  var params = new URLSearchParams(window.location.search);
+  var dbg = params.get('debug');
+  if (dbg === '1') { showVip(); return; }
+  if (dbg === '2') {
+    showProgress(
+      Number(params.get('spent')    || 3200),
+      Number(params.get('remain')   || 1800)
+    );
+    return;
+  }
+  if (dbg === '3') {
+    showVipNotyet(params.get('date') || EVENT_START_DATE_TEXT);
+    return;
+  }
+
+  // ====== 活動期間限制 ======
+  if (ENFORCE_WINDOW) {
+    var now = new Date();
+    if (now < CAMPAIGN_START || now > CAMPAIGN_END) return;
+  }
+
+  // ====== 進頁面時檢查 VIP 資格 ======
+  fetch(VIP_CHECK_API, { credentials: 'include' })
+    .then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(function (json) {
+      var isVip  = pick(json, ['VIP狀態', 'is_vip', 'isVip']);
+      var canBuy = pick(json, ['當下可購買狀態', 'can_buy', 'canBuy']);
+      var target = pick(json, ['目標金額', 'target_amount', 'target']);
+      var spent  = pick(json, ['目前累積金額', 'accumulated_amount', 'spent']);
+      var remain = pick(json, ['還差多少消費額', 'remaining_amount', 'remaining']);
+      var dateTxt = pick(json, ['活動開始日期', 'event_start_date', 'startDate']);
+
+      if ((remain === undefined || remain === null) &&
+          target !== undefined && spent !== undefined) {
+        remain = Number(target) - Number(spent);
+      }
+
+      if (isVip === true && canBuy === true) {
+        // 已符合 VIP 且當下可購買 → 原本的「已符合VIP資格」Dialog
+        showVip();
+      } else if (isVip === true && canBuy === false) {
+        // 已符合 VIP 但尚未開賣 → 新的「尚未開賣」Dialog
+        showVipNotyet(dateTxt);
+      } else if (isVip === false) {
+        showProgress(spent, remain);
+      }
+    })
+    .catch(function (err) {
+      console.warn('[VIP check] skipped:', err.message);
+    });
+})();
+</script>
+</body>
+</html>
