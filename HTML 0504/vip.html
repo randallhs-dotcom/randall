@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--seo熱門關鍵字修改處-->
+    <link rel="shortcut icon" type=image/x-icon href="https://www.ruten.com.tw/images/ie9_icon/logo_6464.ico">
+    <link rel="shortcut icon" type=image/x-icon href="https://www.ruten.com.tw/images/ie9_icon/logo_1616.ico">
+    <meta name="description" content="露天市集 露天倉拍市集，集結動漫、公仔、電玩、卡牌桌遊與限量福袋，動漫展級商品線上開逛，acge 玩家必收藏。">
+    <!--給google看的-->
+    <meta property="og:title" content="露天市集 露天倉拍市集 動漫電玩活動專區，集結動漫、公仔、電玩、卡牌桌遊與限量福袋，動漫展級商品 線上開逛，acge 玩家必收藏 ">
+    <meta name="keyword" content="acge, 動漫活動, 動漫展, 公仔模型, 電玩遊戲, 卡牌桌遊, 動漫周邊, 限量公仔, 福袋活動, 露天市集" />
+
+    <meta property="og:description" content="動漫、公仔、電玩、卡牌通通有！露天市集 acge 專區，限量福袋、熱門 ip、日版現貨，acge 玩家必收藏">
+    <meta property="og:site_name" content="露天倉拍市集|露天市集">
+    <meta property="og:image" content="https://gcs.rimg.com.tw/pub-imgs/bear/popseo.jpg">
+      <!--給fb看的-->
+      <meta itemprop="name" content="露天倉拍市集|露天市集">
+      <meta itemprop="image" property="og:image" content="https://gcs.rimg.com.tw/pub-imgs/bear/popseo.jpg" />
+      <meta itemprop="description" content="動漫、公仔、電玩、卡牌桌遊一次買齊的 ACGE 交易平台">
+      <!--seo熱門關鍵字修改處-->
+      <title>露天倉拍市集 山積的浪漫|露天市集</title>
+
+  <base target="_blank" rel="noreferrer noopener" />
+  <!-- 外掛CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css?20260210">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css?20260210">
+  <link href="lib/animate.min.css?20260210" rel="stylesheet" type="text/css" media="screen">
+  <link href="lib/bootstrap/bootstrap.min.css?20260210" rel="stylesheet" type="text/css" media="all">
+  <link href="lib/swiper/swiper.min.css?20260210" rel="stylesheet" type="text/css" media="screen">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css?20260210" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <!-- 基本CSS -->
+  <link href="resource/css/basic.css?20260210" rel="stylesheet">
+  <link href="resource/css/store_style.css?20260211" rel="stylesheet">
+  <link href="resource/css/hover-min.css?20260210" rel="stylesheet">
+  <link href="resource/css/style.css?20260210" rel="stylesheet" type="text/css">
+
+
+  <!-- VIP Dialog — Tailwind (preflight 關閉，不影響現有頁面樣式) -->
+  <script>tailwind.config = { corePlugins: { preflight: false } };</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ── Design System: Dialog Animations ── */
+    @keyframes dialogFadeIn {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(0.95) translateY(10px); }
+      to   { opacity: 1; transform: translate(-50%, -50%) scale(1)    translateY(0);    }
+    }
+    @keyframes backdropFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .dialog-animate  { animation: dialogFadeIn  0.3s ease-out forwards; }
+    .backdrop-animate { animation: backdropFadeIn 0.2s ease-out forwards; }
+
+    /* ── Design System: Primary Button ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #ff963b 0%, #ffa348 100%);
+      color: #fff; font-weight: 600; font-size: 0.875rem;
+      border-radius: 8px; border: none; cursor: pointer;
+      transition: all 0.2s ease; text-decoration: none;
+      min-width: 0;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 150, 59, 0.4);
+      filter: brightness(1.05);
+      color: #fff;
+    }
+    .btn-primary:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 2px 8px rgba(255, 150, 59, 0.3);
+    }
+    .btn-primary:focus-visible {
+      outline: 2px solid #ff963b; outline-offset: 2px;
+    }
+
+    /* ── Design System: Ghost Button ── */
+    .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; color: #ffa348;
+      font-weight: 600; font-size: 0.875rem;
+      border-radius: 8px; border: none; cursor: pointer;
+      transition: all 0.2s ease; text-decoration: none;
+      min-width: 0;
+    }
+    .btn-ghost:hover  { background: #fff1e6; color: #ffa348; }
+    .btn-ghost:active { background: #ffbf87; color: #fff; }
+    .btn-ghost:focus-visible { outline: 2px solid #ff963b; outline-offset: 2px; }
+
+    /* ── Design System: Close Button ── */
+    .close-btn {
+      transition: all 0.15s ease;
+    }
+    .close-btn:hover  { background: #f0f0f0; transform: scale(1.1); }
+    .close-btn:active { transform: scale(0.95); }
+    .close-btn:focus-visible { outline: 2px solid #ff963b; outline-offset: 1px; }
+
+    /* ── Dialog Card Shadow ── */
+    .shadow-dialog { box-shadow: 0 8px 32px 0 rgba(0,0,0,.12); }
+
+    /* ── Button layout helper ── */
+    .btn-row {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .btn-row .btn-ghost,
+    .btn-row .btn-primary {
+      flex: 1; padding: 12px 8px;
+    }
+    @media (min-width: 768px) {
+      .btn-row .btn-ghost,
+      .btn-row .btn-primary { padding: 14px 24px; }
+    }
+    .btn-single { padding: 12px 32px; }
+    @media (min-width: 768px) { .btn-single { padding: 14px 48px; } }
+  </style>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P95C7HSN');</script>
+  <!-- End Google Tag Manager -->
+  
+</head>
+
+
+<body id="home" class="homepage">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5BBDQCT" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T3QPXSK" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div id="event_code" style="visibility:hidden; position:absolute; top:-9999px; left:-9999px;">springsale</div>
+
+  <!-- 露天header -->
+  <header class="l-header py-2">
+    <div class="container d-flex justify-content-between align-items-center px-2">
+      <div class="col-9 col-md-6 d-flex align-items-center px-0" tracker="logo">
+        <h1 class="header-logo" role="banner"><a href="https://www.ruten.com.tw/" title="回到露天市集"><img class="img-logo"
+              src="images/logo.png?20260210" alt="露天市集"></a></h1>
+      </div>
+    
+      <div class="dropdown" tracker="more">
+          <button class="btn btn-header text-white dropdown-toggle" id="btn_more" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">更多</button>
+          <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="btn_more" tracker="term">
+            <a class="dropdown-item text-white py-3" href="./terms.html"><i
+                class="icon icon-file-alt-mono mr-2">　</i>活動辦法</a>
+            <div class="dropdown-item btn-share py-3" data-share="facebook" tracker="fb-share"><i
+                class="icon icon-facebook mr-2">　</i>分享到 Facebook</div>
+            <div class="dropdown-item btn-share py-3" data-share="line" tracker="line-share"><i
+                class="icon icon-line mr-2">　</i>分享到 Line</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- 露天header -->
+
+
+<!-- 結構都要包在裡面 -->
+<div class="wrapper vip">
+  <div class="main">
+    <!-- 版頭網頁版 -->
+    <a name="top" id="top"></a>
+    <div class="kv site-kv">
+      <div class="kv_w1"><img src="images/vip-kv1.png" data-aos="fade-left" data-aos-delay="100"></div>
+      <div class="kv_w1"><img src="images/vip-kv2.png" data-aos="fade-up"></div>
+      <div class="kv_w1"><img src="images/vip-kv3.png" data-aos="fade-right" data-aos-delay="100"></div>
+      <div class="kv_w1 uptodown-play2"><div class="animated bounce-in-down"><img src="images/vip-title.png"></div></div>
+    </div>
+    
+
+    <!-- VIP -->
+    <a name="section_02" id="section_02"></a>
+    <img src="images/vip_t01.png" loading="lazy" alt="VIP">
+    <div class="box theme-vip">
+      <a href="#" id="js-vip-trigger"><img src="images/T-vip01-vip.png" loading="lazy" alt="VIP"></a>
+      
+      <a name="A1" id="A1"></a><img src="images/vip_t02.png" loading="lazy" alt="1折瘋搶">
+      <div class="grid-layout grid-3 mb-gap-sm theme-pd">
+        <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self">
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">大谷翔平×吉伊卡哇 限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+          <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self">
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+          <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self">
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+      </div>
+
+      <a name="A2" id="A2"></a><img src="images/vip_t03.png" loading="lazy" alt="鎮店之寶">
+      <div class="grid-layout grid-3 mb-gap-sm theme-pd">
+        <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self">
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">大谷翔平×吉伊卡哇 限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+          <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self">
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+          <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self">
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+      </div>
+      
+      <a name="A3" id="A3"></a><img src="images/vip_t04.png" loading="lazy" alt="3折的寶貝">
+      <div class="grid-layout grid-3 mb-gap-sm theme-pd">
+        <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self">
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">大谷翔平×吉伊卡哇 限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+          <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self">
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+          <div class="grid-item">
+            <a href="https://www.ruten.com.tw/item/show?22544299484575" target="_self"> 
+              <div class="imgbox">
+                <img src="https://gcs.rimg.com.tw/g2/9/98/3a/22541137285178_603.png" loading="lazy">
+              </div>
+              <div class="pd-content">
+                <span class="name">限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋限定聯萌福袋</span>
+                <div class="price">$<b>1,188</b></div>
+              </div>
+            </a>
+          </div>
+      </div>
+
+      <div class="center-quote">
+        <img src="images/fMB.png"><p>別人家裡叫堆東西，我家這座叫精神糧食</p><img src="images/fMB.png">
+      </div>
+
+    </div>
+    <img src="images/T-vip03.png" loading="lazy" alt="模型新鮮貨結束" style="display: block; width: 100%;">
+    <!-- VIP 結束 -->
+
+
+<!-- 免運 / 銀行 -->
+    <div class="bank">
+      <div class="grid-layout grid-3 mb-col-3 mb-gap-sm">
+        <div class="grid-item" data-aos="flip-left" data-aos-delay="100"><a href="https://www.ruten.com.tw/event/shipping_discount.php" target="_self"><img src="images/index_28.png"></a></div>
+        <div class="grid-item" data-aos="flip-left" data-aos-delay="300"><a href="https://www.ruten.com.tw/event/shipping_discount.php" target="_self"><img src="images/index_29.png"></a></div>
+        <div class="grid-item" data-aos="flip-left" data-aos-delay="500"><a href="https://pub.ruten.com.tw/piapp/" target="_self"><img src="images/index_30.png"></a></div>
+      </div>
+    </div>
+<!-- 免運 / 銀行 結束 -->
+
+  </div>
+</div>
+<!-- 結構都要包在裡面 結束 -->
+
+<!--/#footer-->
+  <footer id="footer">
+    <div class="container text-center my-3">露天市集國際資訊股份有限公司版權所有，轉載必究 Copyright © PChome eBay Co., Ltd.</div>
+  </footer>
+<!--/#footer-->
+
+
+<!-- 手機錨點bar -->
+<div class="mb_show zone zone1220">
+  <div class="abar py-2"> <!-- 移除了 scrolled class -->
+
+    <ul>	
+      <li><a href="./index.html" target="_self" class="wordtxt mx-2" rel="noopener">山積的浪漫</a></li><li><span class="wordtxt">|</span></li>	
+      <li><a href="#section_02" target="_self" class="wordtxt mx-2" rel="noopener">VIP</a></li><li><span class="wordtxt">|</span></li>		
+      <li><a href="#A1" target="_self" class="wordtxt mx-2" rel="noopener">1折瘋搶</a></li><li><span class="wordtxt">|</span></li>
+      <li><a href="#A2" target="_self" class="wordtxt mx-2" rel="noopener">鎮店之寶</a></li><li><span class="wordtxt">|</span></li>
+      <li><a href="#A3" target="_self" class="wordtxt mx-2" rel="noopener">5折的寶貝</a></li><li><span class="wordtxt">|</span></li>	
+      <li><a href="./terms.html"  target="_self" class="wordtxt mx-2" rel="noopener">活動辦法</a></li><li><span class="wordtxt">|</span></li>
+    </ul>
+  </div>
+</div>
+		<script>
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    const abar = document.querySelector('.abar');
+    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        abar.classList.add('scrolled');
+    } else {
+        abar.classList.remove('scrolled');
+    }
+}
+	</script>
+    <!-- 手機錨點bar -->
+
+
+
+<!-- 右側選單 -->
+<!-- navigation for pc -->
+<input type="checkbox" name="" id="side-menu-switch2">
+<div class="side-menu2"> 
+  <!--<label for="side-menu-switch" class="hvr-wobble-vertical">主打活動</label>-->
+  <nav id="myScrollspy">
+    <ul class="area2 nav nav-pills">
+      <img src="images/buton01.png">
+      <li class="nav01"><a href="./index.html" target="_self" rel="noopener">山積的浪漫</a></li>
+      <li class="nav02"><a href="#section_02" target="_self" rel="noopener">VIP</a></li>
+      <li class="nav03"><a href="#A1" target="_self" rel="noopener">1折瘋搶</a></li>
+      <li class="nav03"><a href="#A2" target="_self" rel="noopener">鎮店之寶</a></li>
+      <li class="nav04"><a href="#A3" target="_self" rel="noopener">5折的寶貝</a></li>
+      <li class="nav09"><a href="./terms.html" target="_self" rel="noopener">活動辦法</a></li>
+      <li class="nav10"><a href="#top" target="_self" rel="noopener">▲TOP▲</a></li>
+    </ul>
+  </nav>
+</div>
+
+	
+<!-- 頁碼分頁-->	
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    switchPage(1); // 頁面加載時顯示第1頁
+});
+
+function switchPage(pageNumber) {
+    // 获取所有页面元素
+    var pages = document.querySelectorAll('.page');
+    
+    // 移除所有页的 active 类并隐藏页面
+    pages.forEach(function(page) {
+        page.classList.remove('active');
+        page.style.display = 'none';
+    });
+
+    // 为当前页添加 active 类并显示页面
+    var currentPage = document.getElementById('page' + pageNumber);
+    currentPage.classList.add('active');
+    currentPage.style.display = 'grid';
+
+    // 获取当前页的子项数
+    var items = currentPage.querySelectorAll('.grid-item');
+
+    // 动态调整网格布局的对齐方式
+    if (items.length < 8) {
+        currentPage.style.justifyContent = 'center';
+        currentPage.style.alignContent = 'center';
+    } else {
+        currentPage.style.justifyContent = '';
+        currentPage.style.alignContent = '';
+    }
+
+    // 更新分页按钮的样式
+    var pageButtons = document.querySelectorAll('.pagination dd');
+    pageButtons.forEach(function(button) {
+        button.classList.remove('active');
+    });
+    pageButtons[pageNumber - 1].classList.add('active');
+}
+
+
+</script>
+<!-- 頁碼分頁-->
+	
+	
+  <!-- 外掛js -->
+  <script src="lib/jquery/jquery.min.js" type="text/javascript"></script>
+  <script src="lib/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+  <script src="lib/bootstrap/bootstrap.bundle.min.js" type="text/javascript"></script>
+  <script src="lib/popper/popper.min.js" type="text/javascript"></script>
+  <script src="lib/swiper/swiper.min.js" type="text/javascript"></script>
+
+
+  <!-- 基本js -->
+  <script src="resource/js/main.js" type="text/javascript"></script>
+  <script src="resource/js/main2.js" type="text/javascript"></script>
+  <script src="resource/js/alternate.js" type="text/javascript"></script>
+  <script src="resource/js/weekSaleSlideshow.js" type="text/javascript"></script>
+  <script src="resource/js/popoutQuiz.js" type="text/javascript"></script>
+
+  <!--活動成效紀錄-->
+  <script type="text/javascript" src="https://ts.ruten.com.tw/event_track.js?20200831"></script>
+  <!-- ts code start -->
+  <script type="text/javascript">
+    (function (R, u, t, e, n, T, S) {
+      t = R[t] = function () { (t.queue = t.queue || []).push(arguments); };
+      t.host = n; T = u.createElement(e); T.async = 1; T.src = n + '/ts_async.js?10';
+      S = u.getElementsByTagName(e)[0]; S.parentNode.insertBefore(T, S);
+    }(window, document, '_ts_js_fn', 'script', 'https://ts.ruten.com.tw'));
+    _ts_js_fn('init');
+    _ts_js_fn('run');
+  </script>
+  <!-- ts code end -->
+  <!--活動成效紀錄-->
+
+<script>
+$(function(){
+  AOS.init();
+})
+//自定參數呼叫
+$(function(){
+  AOS.init({
+      offset: 50,
+      easing: 'ease-in-sine'
+  });
+})
+</script>
+<!-- mobile版 back to top -->	
+<div class="forPhone">
+	<div class="toTopbtn backtoTop">TOP</div>
+	</div>  
+<script>
+$(function(){
+    $(window).scroll(function () {
+      if ($(this).scrollTop() > 150 ) {
+            $('.toTopbtn').fadeIn("fast");
+          } else {
+            $('.toTopbtn').stop().fadeOut("fast");
+          }
+    });
+});
+$(".backtoTop").click(function () {
+  $("html, body").animate({scrollTop: 0}, 300);
+});	
+</script>	
+<!-- END// mobile版 back to top -->
+
+
+<!-- 商品區動態載入 -->
+<script src="resource/js/pdsection.js?20260210" type="text/javascript"></script>
+
+<!-- ============== VIP Dialog — 已符合 VIP 資格（可購買） ============== -->
+<div id="vip-dialog" class="fixed inset-0 z-50 hidden">
+  <div id="vip-dialog-backdrop" class="absolute inset-0 bg-[#161619]/60 backdrop-animate"></div>
+  <div class="dialog-animate absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+              w-[300px] md:w-[416px] rounded-xl bg-white shadow-dialog p-6 md:p-8"
+       role="dialog" aria-modal="true" aria-labelledby="vip-dialog-title">
+    <button id="vip-dialog-close" aria-label="關閉"
+            class="close-btn absolute top-3 right-3 w-6 h-6 flex items-center justify-center text-[#9798a2] rounded">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <h2 id="vip-dialog-title"
+        class="text-center text-[#33343B] text-base md:text-xl font-semibold">
+      已符合VIP資格
+    </h2>
+    <div class="mt-5 flex justify-center">
+      <img src="images/vip-badge.png" alt="VIP" class="w-[100px] h-[100px] object-contain" />
+    </div>
+    <p class="mt-4 text-[13px] md:text-sm text-[#33343B] text-center leading-relaxed">
+      太棒了！您具備 VIP 選購權限！<br/>
+      快去看看只有你能買到的酷東西
+    </p>
+    <div class="mt-5 flex justify-center">
+      <a id="vip-dialog-cta" href="#A1" class="btn-primary btn-single">前往選購</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============== VIP NotYet Dialog — 已符合 VIP 資格（尚未開賣） ============== -->
+<div id="vip-notyet-dialog" class="fixed inset-0 z-50 hidden">
+  <div id="vip-notyet-dialog-backdrop" class="absolute inset-0 bg-[#161619]/60 backdrop-animate"></div>
+  <div class="dialog-animate absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+              w-[300px] md:w-[416px] rounded-xl bg-white shadow-dialog p-6 md:p-8"
+       role="dialog" aria-modal="true" aria-labelledby="vip-notyet-dialog-title">
+    <button id="vip-notyet-dialog-close" aria-label="關閉"
+            class="close-btn absolute top-3 right-3 w-6 h-6 flex items-center justify-center text-[#9798a2] rounded">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <h2 id="vip-notyet-dialog-title"
+        class="text-center text-[#33343B] text-base md:text-xl font-semibold">
+      已符合VIP資格
+    </h2>
+    <div class="mt-5 flex justify-center">
+      <img src="images/vip-badge.png" alt="VIP" class="w-[100px] h-[100px] object-contain" />
+    </div>
+    <p class="mt-4 text-[13px] md:text-sm text-[#33343B] text-center leading-relaxed">
+      太棒了！您具備 VIP 選購權限！<br/>
+      您的入場時間為：<span id="vip-notyet-date">5/10(日)</span><br/>
+      記得準時回來喔！
+    </p>
+    <div class="mt-5 btn-row">
+      <a id="vip-notyet-dialog-rules" href="./terms.html" class="btn-ghost">前往活動辦法</a>
+      <a id="vip-notyet-dialog-cta"   href="./index.html" class="btn-primary">繼續逛逛</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============== Progress Dialog — 尚未達到 VIP 資格 ============== -->
+<div id="progress-dialog" class="fixed inset-0 z-50 hidden">
+  <div id="progress-dialog-backdrop" class="absolute inset-0 bg-[#161619]/60 backdrop-animate"></div>
+  <div class="dialog-animate absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+              w-[300px] md:w-[416px] rounded-xl bg-white shadow-dialog p-6 md:p-8"
+       role="dialog" aria-modal="true" aria-labelledby="progress-dialog-title">
+    <button id="progress-dialog-close" aria-label="關閉"
+            class="close-btn absolute top-3 right-3 w-6 h-6 flex items-center justify-center text-[#9798a2] rounded">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <h2 id="progress-dialog-title"
+        class="text-center text-[#33343B] text-base md:text-xl font-semibold">
+      尚未達到 VIP 資格
+    </h2>
+    <div class="mt-5 flex justify-center">
+      <img src="images/vip-badge-locked.png" alt="VIP (locked)" class="w-[100px] h-[100px] object-contain" />
+    </div>
+    <p class="mt-4 text-[13px] md:text-sm text-[#33343B] text-center leading-relaxed">
+      差一點就能解鎖 VIP！<br/>
+      您目前的進度：$ <span id="progress-spent"></span><br/>
+      再消費 $ <span id="progress-remaining"></span><br/>
+      就能選購 VIP 限定商品！
+    </p>
+    <div class="mt-5 btn-row">
+      <a id="progress-dialog-rules" href="./terms.html" class="btn-ghost">前往活動辦法</a>
+      <a id="progress-dialog-cta"   href="#A1"          class="btn-primary">前往選購</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============== VIP 資格檢查 ============== -->
+<script>
+(function () {
+  'use strict';
+
+  // ====== 設定 ======
+  var VIP_API            = 'https://rapi.beta.ruten.com.tw/api/events/v1/clearance_sale_vip_eligibility';
+  var BUY_URL            = '#A1';           // 前往選購
+  var RULES_URL          = './terms.html';  // 前往活動辦法
+  var KEEP_BROWSE_URL    = './index.html';  // 繼續逛逛
+  var EVENT_START_DATE_TEXT = '5/10(日)';
+
+  var CAMPAIGN_START = new Date('2026-05-10T00:00:00+08:00');
+  var CAMPAIGN_END   = new Date('2026-05-17T23:59:59+08:00');
+  var ENFORCE_WINDOW = false;
+
+  // ====== DOM ======
+  var triggerEl = document.getElementById('js-vip-trigger');
+
+  var vipDialog    = document.getElementById('vip-dialog');
+  var vipBackdrop  = document.getElementById('vip-dialog-backdrop');
+  var vipCloseBtn  = document.getElementById('vip-dialog-close');
+  var vipCta       = document.getElementById('vip-dialog-cta');
+
+  var notyetDialog   = document.getElementById('vip-notyet-dialog');
+  var notyetBackdrop = document.getElementById('vip-notyet-dialog-backdrop');
+  var notyetCloseBtn = document.getElementById('vip-notyet-dialog-close');
+  var notyetCta      = document.getElementById('vip-notyet-dialog-cta');
+  var notyetRules    = document.getElementById('vip-notyet-dialog-rules');
+  var notyetDateEl   = document.getElementById('vip-notyet-date');
+
+  var progDialog    = document.getElementById('progress-dialog');
+  var progBackdrop  = document.getElementById('progress-dialog-backdrop');
+  var progCloseBtn  = document.getElementById('progress-dialog-close');
+  var progCta       = document.getElementById('progress-dialog-cta');
+  var progRules     = document.getElementById('progress-dialog-rules');
+  var progSpent     = document.getElementById('progress-spent');
+  var progRemaining = document.getElementById('progress-remaining');
+
+  // ====== Helpers ======
+  function show(el) { if (el) el.classList.remove('hidden'); }
+  function hide(el) { if (el) el.classList.add('hidden'); }
+  function hideAll() { hide(vipDialog); hide(notyetDialog); hide(progDialog); }
+
+  function formatNumber(n) {
+    if (n === null || n === undefined || isNaN(n)) return '';
+    return Number(n).toLocaleString('zh-Hant-TW');
+  }
+
+  function pick(obj, keys) {
+    if (!obj) return undefined;
+    for (var i = 0; i < keys.length; i++) {
+      if (obj[keys[i]] !== undefined) return obj[keys[i]];
+    }
+    if (obj.data) {
+      for (var j = 0; j < keys.length; j++) {
+        if (obj.data[keys[j]] !== undefined) return obj.data[keys[j]];
+      }
+    }
+    return undefined;
+  }
+
+  function renderProgress(spent, remaining) {
+    if (progSpent)     progSpent.textContent     = formatNumber(spent);
+    if (progRemaining) progRemaining.textContent = formatNumber(remaining);
+  }
+  function renderDate(txt) {
+    if (notyetDateEl) notyetDateEl.textContent = txt || EVENT_START_DATE_TEXT;
+  }
+
+  function showVip()          { hideAll(); show(vipDialog); }
+  function showVipNotyet(txt) { renderDate(txt); hideAll(); show(notyetDialog); }
+  function showProgress(spent, remaining) {
+    renderProgress(spent, remaining);
+    hideAll(); show(progDialog);
+  }
+
+  // ====== 事件 ======
+  vipCloseBtn    && vipCloseBtn.addEventListener('click',    function(){ hide(vipDialog); });
+  vipBackdrop    && vipBackdrop.addEventListener('click',    function(){ hide(vipDialog); });
+  notyetCloseBtn && notyetCloseBtn.addEventListener('click', function(){ hide(notyetDialog); });
+  notyetBackdrop && notyetBackdrop.addEventListener('click', function(){ hide(notyetDialog); });
+  progCloseBtn   && progCloseBtn.addEventListener('click',   function(){ hide(progDialog); });
+  progBackdrop   && progBackdrop.addEventListener('click',   function(){ hide(progDialog); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') hideAll();
+  });
+
+  if (vipCta)  vipCta.setAttribute('href', BUY_URL);
+  if (progCta) progCta.setAttribute('href', BUY_URL);
+  if (notyetCta)   notyetCta.setAttribute('href', KEEP_BROWSE_URL);
+  if (progRules)   progRules.setAttribute('href', RULES_URL);
+  if (notyetRules) notyetRules.setAttribute('href', RULES_URL);
+
+  // ====== debug 模式 ======
+  var params = new URLSearchParams(window.location.search);
+  var dbg = params.get('debug');
+
+  // ====== 點擊圖片觸發 ======
+  if (!triggerEl) { console.warn('[VIP] 找不到 #js-vip-trigger'); return; }
+  triggerEl.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // ---- debug 模式 ----
+    if (dbg === '1') { showVip(); return; }
+    if (dbg === '2') {
+      showProgress(
+        Number(params.get('spent')  || 3200),
+        Number(params.get('remain') || 1800)
+      );
+      return;
+    }
+    if (dbg === '3') {
+      showVipNotyet(params.get('date') || EVENT_START_DATE_TEXT);
+      return;
+    }
+
+    // ---- 活動期間限制 ----
+    if (ENFORCE_WINDOW) {
+      var now = new Date();
+      if (now < CAMPAIGN_START || now > CAMPAIGN_END) return;
+    }
+
+    // ---- 正式：呼叫 API ----
+    fetch(VIP_API, { credentials: 'include' })
+      .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(json) {
+        var isVip   = pick(json, ['is_vip', 'isVip', 'VIP狀態']);
+        var canBuy  = pick(json, ['can_purchase_now', 'can_buy', 'canBuy', '當下可購買狀態']);
+        var target  = pick(json, ['target_amount', 'target', '目標金額']);
+        var spent   = pick(json, ['current_amount', 'accumulated_amount', 'spent', '目前累積金額']);
+        var remain  = pick(json, ['remaining_amount', 'remaining', '還差多少消費額']);
+        var dateTxt = pick(json, ['event_start_date', 'startDate', '活動開始日期']);
+
+        if ((remain === undefined || remain === null) &&
+            target !== undefined && spent !== undefined) {
+          remain = Number(target) - Number(spent);
+        }
+
+        if (isVip === true && canBuy === true) {
+          showVip();
+        } else if (isVip === true && canBuy === false) {
+          showVipNotyet(dateTxt);
+        } else if (isVip === false) {
+          showProgress(spent, remain);
+        }
+      })
+      .catch(function(err) {
+        console.warn('[VIP check] skipped:', err.message);
+      });
+  });
+
+})();
+</script>
+
+</body>
+
+</html>

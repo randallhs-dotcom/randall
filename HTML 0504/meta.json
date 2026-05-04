@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "data": {
+    "status": "進行中",
+    "seller_id": null,
+    "event_id": null,
+    "event_type": "internal",
+    "name": "露天倉拍市集 山積的浪漫|露天市集",
+    "start_time": "2026-05-07 00:00:00",
+    "is_permanent": true,
+    "end_time": "2026-06-08 23:59:59",
+    "theme": null,
+    "cover_image": "https://gcs.rimg.com.tw/pub-imgs/bear/popseo.jpg"
+  }
+}

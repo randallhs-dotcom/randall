@@ -1,0 +1,795 @@
+html {
+  scroll-behavior: initial;
+}
+
+::selection {
+  background: #b3d4fc;
+  color: #000;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: text-top;
+  display: block;
+}
+
+.wrapper {
+  width: 100%;
+  background: url(../../images/bg_01.jpg) top center no-repeat #111;
+  background-size: auto;
+}
+
+@media (max-width: 960px) {
+  .wrapper {
+    background: url() top center no-repeat #111;
+    background-size: auto;
+  }
+}
+
+.main {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+@media (max-width: 960px) {
+  .main {
+    background: url(../../images/bg_960.jpg) top center no-repeat #111;
+    background-size: 100%;
+  }
+}
+
+.kv {
+  position: relative;
+  width: 100%;
+  /* 寬度撐滿 */
+  max-width: 960px;
+  /* 根據你的設計設定最大寬度 */
+  height: auto;
+  /* 讓高度隨比例縮放 */
+  aspect-ratio: 960 / 1500;
+  /* 重要：保持原圖比例，避免容器塌陷 */
+  margin: 0 auto;
+  pointer-events: auto;
+}
+
+.kv>div {
+  position: absolute;
+}
+
+.kv img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.kv_w1 {
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+
+@media (max-width: 768px) {
+  .kv {
+    padding-top: 100px;
+    margin-bottom: 30px;
+  }
+
+  .kv_w1 {
+    top: 30px;
+  }
+}
+
+/* =========================================
+  1. 佈局工具類 (Layout Utilities)
+   ========================================= */
+.grid-layout {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(1, 1fr);
+  /* 預設 1 欄 */
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  border-radius: 10px;
+  background-color: #000;
+}
+
+/* 針對 grid 容器內的空 a 標籤 */
+.grid-layout>a:empty {
+  display: none;
+}
+
+.full-row {
+  grid-column: 1 / -1;
+  /* "1 / -1" 代表從第一格寬度跨越到最後一格，不管你原本是幾欄都會自動滿版 */
+}
+
+.full-row:hover img {
+  transform: none;
+}
+
+/* 桌機欄數控制 */
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3col-feature-right {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1.5fr !important;
+  gap: 15px;
+}
+
+/* 手機版欄位控制 (768px 以下) */
+@media (max-width: 768px) {
+  .grid-layout {
+    margin: 0 2vw 2vw 2vw;
+    padding: 5px;
+  }
+
+  .mb-col-1 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .mb-col-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mb-col-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mb-gap-sm {
+    gap: 5px;
+  }
+
+  /* 手機縮小間距用 */
+}
+
+/* =========================================
+  2. 主題系統 (Theme System)
+   ========================================= */
+
+/* 主題 A：一番賞 */
+.theme-ichi {
+  --card-bg: #fff;
+  --card-border: #fff;
+  --card-borderPx: 1px;
+  --name-color: #000;
+  --price-label: #000;
+  --price-num: #ff3b3b;
+}
+
+/* 主題 B：競標 */
+.theme-bidding {
+  --card-bg: #fff;
+  --card-border: #000;
+  --card-borderPx: 1px;
+  --name-color: #000;
+  --price-label: #ff2525;
+  --price-num: #ff2525;
+}
+
+/* 主題 C：一般商品卡 */
+.theme-pd {
+  --card-bg: #fff;
+  --card-border: #000;
+  --card-borderPx: 1px;
+  --name-color: #000;
+  --price-label: #ff2525;
+  --price-num: #ff2525;
+}
+
+.theme-ichi .grid-item:hover,
+.theme-bidding .grid-item:hover,
+.theme-pd .grid-item:hover {
+  transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+  .theme-pd {
+    --card-borderPx: 0px;
+  }
+}
+
+/* =========================================
+  3. 商品卡結構 (Component)
+   ========================================= */
+.grid-item {
+  background: var(--card-bg);
+  border: var(--card-borderPx) solid var(--card-border);
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  padding: 0;
+}
+
+/* 讓該項目從第 1 條格線橫跨到最後 1 條格線 */
+.col-span-full {
+  grid-column: 1 / -1;
+  background: #000;
+}
+
+.col-span-full>h2 {
+  --bg-size: 400%;
+  --color-one: hsl(15 90% 55%);
+  --color-two: #ffff00;
+  background: linear-gradient(90deg,
+      var(--color-one),
+      var(--color-two),
+      var(--color-one)) 0 0 / var(--bg-size) 100%;
+  color: transparent;
+  background-clip: text;
+  font-weight: bold;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .col-span-full>h2 {
+    animation: move-bg 8s linear infinite;
+  }
+
+  @keyframes move-bg {
+    to {
+      background-position: var(--bg-size) 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .col-span-full>h2 {
+    font-size: 20px;
+  }
+}
+
+/* --- 1. 保持原樣 (不需要寫 hover，或者強制重設) --- */
+.hvr-none:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  cursor: default;
+}
+
+/* --- 2. 放大 --- */
+.hvr-grow:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* --- 3. 往上移動  --- */
+.hvr-up:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+  transition: all 0.5s ease-out;
+}
+
+.imgbox {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* 固定比例 */
+  overflow: hidden;
+  /* 超出部分隱藏 */
+  display: flex;
+  /* 讓圖片置中 */
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.imgbox img {
+  max-width: 100%;
+  /* 寬度最多 100% */
+  max-height: 100%;
+  /* 高度最多 100% */
+  object-fit: contain;
+  /* 確保整張圖都看得到，不被裁切 */
+}
+
+.bid-icon {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 50%;
+}
+
+/* 內容區 */
+.pd-content {
+  padding: 8px 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  color: var(--name-color);
+  font-size: 18px;
+  height: 2.8em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  margin-bottom: 5px;
+}
+
+.price {
+  color: var(--price-label);
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 2px;
+  padding: 0 10px 15px;
+}
+
+.price b {
+  color: var(--price-num);
+  font-size: 30px;
+  line-height: 1;
+  display: inline-block;
+  letter-spacing: 0.05rem;
+}
+
+/* 額外元件：競標橫條 & 副標題 */
+aside {
+  display: flex;
+  justify-content: space-between;
+  background-color: #000;
+  border: 1px solid #fff;
+}
+
+.rt-auction-time {
+  text-align: right;
+  flex: 1;
+  /* 讓這個區塊佔滿剩下的空間，文字才能在裡面靠右 */
+}
+
+.rt-auction-text,
+.rt-auction-time {
+  word-break: break-all;
+  color: #fff !important;
+  font-size: 15px !important;
+  padding: 2px 5px;
+}
+
+.promo-tag {
+  background: ;
+  color: #fff;
+  text-align: center;
+  padding: 4px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+@media (max-width: 768px) {
+  .grid-item span {
+    line-height: 15px;
+  }
+
+  aside.promo-tag {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .rt-auction-text,
+  .rt-auction-time {
+    margin-left: 0 !important;
+    padding: 0;
+    font-size: 11px !important;
+    line-height: 1.2;
+    width: 100%;
+    text-align: center;
+  }
+
+  .pd-content {
+    padding: 5px;
+  }
+
+  .name,
+  .promo-tag,
+  .price {
+    font-size: 12px;
+  }
+
+  .rt-auction-text,
+  .rt-auction-time {
+    font-size: 10px !important;
+  }
+
+  .price b {
+    font-size: 20px;
+    transform: translateY(4px);
+  }
+
+  .price {
+    padding: 0px;
+    white-space: nowrap;
+  }
+
+  .theme-bidding .price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+    gap: 0;
+  }
+
+  .theme-bidding .price b {
+    font-size: 20px;
+    margin-left: 0;
+  }
+}
+
+.bank {
+  clear: both;
+  padding: 30px 0 50px 0;
+}
+
+
+
+
+
+/* 基礎樣式與變數設定 */
+:root {
+  --bg-black: #000000;
+  --default-theme: #ffd700;
+  /* 預設 VIP 黃 */
+}
+
+.box {
+  background-size: 100%;
+}
+
+/* 標題與內文共用樣式 */
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.sub-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- VIP 按鈕與箭頭動畫 --- */
+.btn-go {
+  background-color: #000;
+  /* 黑色底 */
+  color: var(--theme-color);
+  /* 根據主題變色 */
+  padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-go>svg {
+  height: 10px;
+  width: 10px;
+}
+
+.btn-go .arrow {
+  transition: transform 0.3s ease;
+  animation: arrow-bounce 0.6s infinite alternate;
+}
+
+@keyframes arrow-bounce {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(5px);
+  }
+}
+
+/* --- 置中段落樣式 --- */
+.center-quote {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.quote-icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--theme-color);
+  /* SVG 自動換色關鍵 */
+}
+
+@media (max-width: 768px) {
+  .center-quote {
+    font-size: 12px;
+  }
+
+  .center-quote img {
+    height: 18px;
+  }
+}
+
+/* --- 各區塊顏色覆寫 --- */
+.theme-fresh {
+  --theme-color: #c4e632;
+  background: url(../../images/T-fresh02.png) repeat-y;
+  background-size: 100%;
+}
+
+/* 模型新鮮貨 */
+.theme-vip {
+  --theme-color: #ffd700;
+  background: url(../../images/T-vip02.png) repeat-y;
+  background-size: 100%;
+}
+
+/* VIP */
+.theme-one {
+  --theme-color: #00e676;
+  background: url(../../images/T-one02.png) repeat-y;
+  background-size: 100%;
+}
+
+/* 一元起標 */
+.theme-gacha {
+  --theme-color: #3b82f6;
+  background: url(../../images/T-gacha02.png) repeat-y;
+  background-size: 100%;
+  color: #fff
+}
+
+/* 一抽入魂 */
+.theme-backlog {
+  --theme-color: #7d5ba6;
+  background: url(../../images/T-backlog02.png) repeat-y;
+  background-size: 100%;
+  color: #fff
+}
+
+/* 山積 */
+.theme-build {
+  --theme-color: #db957c;
+  background: url(../../images/T-build02.png) repeat-y;
+  background-size: 100%;
+}
+
+/* 巧手組裝 */
+.theme-supply {
+  --theme-color: #fbc5c5;
+  background: url(../../images/T-supply02.png) repeat-y;
+  background-size: 100%;
+}
+
+/* 花車補給 */
+.theme-seller {
+  --theme-color: #ebebea;
+  background: url(../../images/T-seller02.png) repeat-y;
+  background-size: 100%;
+}
+
+/* 精選賣家 */
+.theme-week {
+  --theme-color: #ebebea;
+  background: url(../../images/T-week02.png) repeat-y;
+  background-size: 100%;
+}
+
+/* 週週亮點 */
+
+
+/*side-menu*/
+.side-menu2 {
+  position: fixed;
+  width: auto;
+  top: 15%;
+  right: 1%;
+  padding: 20px 10px;
+  background: url();
+  background-color: rgba(17, 17, 17, 0.5);
+  border-radius: 2px;
+  border: 1px solid #c4e632;
+  box-sizing: border-box;
+  border-radius: 20px;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0);
+  transition: .3s;
+  text-align: center;
+  z-index: 99;
+  overflow: hidden;
+  z-index: 3000;
+}
+
+.side-menu2 nav a:hover {
+  color: #c4e632;
+}
+
+@media (max-width: 768px) {
+  .side-menu2 {
+    display: none;
+  }
+}
+
+/* popup */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 9998;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.overlay.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  position: relative;
+  max-width: 560px;
+  border-radius: 4px;
+  overflow: hidden;
+  text-align: center;
+  background-color: transparent;
+  border: 0px;
+  padding: 20px;
+}
+
+/* 當 active 時彈窗往下滑入 */
+.overlay.active .popup {
+  transform: translateY(0);
+}
+
+.content {
+  background: #fff;
+  ;
+}
+
+.content h1 {
+  color: #df5c64;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.btn-close {
+  cursor: pointer;
+  z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  .content h1 {
+    font-size: 24px;
+  }
+
+  .content p {
+    font-size: 12px;
+  }
+}
+
+
+/* 分會場 */
+.site-kv {
+  aspect-ratio: 960 / 1100;
+}
+
+.fresh {
+  width: 100%;
+  background: url(../../images/fresh-bg_01.png) top center no-repeat #445011;
+  background-size: auto;
+}
+
+@media (max-width: 960px) {
+  .wrapper .fresh {
+    background: url() top center no-repeat #445011;
+    background-size: auto;
+  }
+}
+
+@media (max-width: 960px) {
+  .fresh>.main {
+    background: url(../../images/fresh-bg_960.png) top center no-repeat #445011;
+    background-size: 100%;
+  }
+}
+
+.vip {
+  width: 100%;
+  background: url(../../images/vip-bg_01.png) top center no-repeat #665600;
+  background-size: auto;
+}
+
+@media (max-width: 960px) {
+  .wrapper .vip {
+    background: url() top center no-repeat #665600;
+    background-size: auto;
+  }
+}
+
+@media (max-width: 960px) {
+  .vip>.main {
+    background: url(../../images/vip-bg_960.png) top center no-repeat #665600;
+    background-size: 100%;
+  }
+}
+
+.backlog {
+  width: 100%;
+  background: url(../../images/backlog-bg_01.png) top center no-repeat #4b3764;
+  background-size: auto;
+}
+
+@media (max-width: 960px) {
+  .wrapper .backlog {
+    background: url() top center no-repeat #4b3764;
+    background-size: auto;
+  }
+}
+
+@media (max-width: 960px) {
+  .backlog>.main {
+    background: url(../../images/backlog-bg_960.png) top center no-repeat #4b3764;
+    background-size: 100%;
+  }
+}
+
+.supply {
+  width: 100%;
+  background: url(../../images/supply-bg_01.png) top center no-repeat #644f4f;
+  background-size: auto;
+}
+
+@media (max-width: 960px) {
+  .wrapper .supply {
+    background: url() top center no-repeat #644f4f;
+    background-size: auto;
+  }
+}
+
+@media (max-width: 960px) {
+  .supply>.main {
+    background: url(../../images/supply-bg_960.png) top center no-repeat #644f4f;
+    background-size: 100%;
+  }
+}
