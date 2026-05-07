@@ -681,9 +681,9 @@
       return Math.floor(new Date(str.replace(/\//g, '-').replace(' ', 'T') + '+08:00').getTime() / 1000);
     }
 
-    function buildBidCard(item) {
-      var start = toTs(item.postTime);
-      var end = toTs(item.closeTime);
+    function buildBidCard(item, price, postTime, closeTime) {
+      var start = toTs(postTime);
+      var end = toTs(closeTime);
       return '<div class="grid-item">' +
         '<a href="https://www.ruten.com.tw/item/show?' + item.gno + '" target="_self">' +
           '<div class="imgbox">' +
@@ -696,7 +696,7 @@
           '</aside>' +
           '<div class="pd-content">' +
             '<span class="name">' + item.name + '</span>' +
-            '<div class="price">目前出價$<b>1</b></div>' +
+            '<div class="price">目前出價$<b>' + price + '</b></div>' +
           '</div>' +
         '</a>' +
       '</div>';
@@ -742,40 +742,57 @@
         if (cartEl) cartEl.innerHTML = cartHtml;
 
         // 一元競標
-        var bidHtml = '';
-        (d.bid.items || []).forEach(function (item) { bidHtml += buildBidCard(item); });
-        var bidEl = document.getElementById('index-bid');
-        if (bidEl) {
-          bidEl.innerHTML = bidHtml;
-          function pad2(n) { return String(n).padStart(2, '0'); }
-          function formatCountdown(secs) {
-            var s = Math.max(0, secs);
-            var days = Math.floor(s / 86400);
-            var h = Math.floor((s % 86400) / 3600);
-            var m = Math.floor((s % 3600) / 60);
-            var sec = s % 60;
-            return days + ' 天 ' + pad2(h) + ':' + pad2(m) + ':' + pad2(sec);
-          }
-          function tickBid() {
-            var now = Math.floor(Date.now() / 1000);
-            bidEl.querySelectorAll('.rt-auction-time').forEach(function (el) {
-              var start = parseInt(el.dataset.start, 10);
-              var end = parseInt(el.dataset.end, 10);
-              var textEl = el.previousElementSibling;
-              if (now < start) {
-                if (textEl) textEl.textContent = '即將開始';
-                el.textContent = formatCountdown(start - now);
-              } else if (now < end) {
-                if (textEl) textEl.textContent = '競標中';
-                el.textContent = formatCountdown(end - now);
-              } else {
-                if (textEl) textEl.textContent = '競標已結束';
-                el.textContent = '0 天 00:00:00';
+        var bidItems = d.bid.items || [];
+        if (bidItems.length > 0) {
+          var gnos = bidItems.map(function(item) { return item.gno; }).join(',');
+          fetch('https://rtapi.ruten.com.tw/api/prod/v3/index.php/prod?id=' + gnos)
+            .then(function(res) { return res.json(); })
+            .then(function(prods) {
+              var prodMap = {};
+              prods.forEach(function(p) { prodMap[String(p.ProdId)] = p; });
+              var bidHtml = '';
+              bidItems.forEach(function(item) {
+                var prod = prodMap[String(item.gno)] || {};
+                var price = prod.PriceRange ? prod.PriceRange[0] : 1;
+                var postTime = prod.PostTime || item.postTime;
+                var closeTime = prod.CloseTime || item.closeTime;
+                bidHtml += buildBidCard(item, price, postTime, closeTime);
+              });
+              var bidEl = document.getElementById('index-bid');
+              if (bidEl) {
+                bidEl.innerHTML = bidHtml;
+                function pad2(n) { return String(n).padStart(2, '0'); }
+                function formatCountdown(secs) {
+                  var s = Math.max(0, secs);
+                  var days = Math.floor(s / 86400);
+                  var h = Math.floor((s % 86400) / 3600);
+                  var m = Math.floor((s % 3600) / 60);
+                  var sec = s % 60;
+                  return days + ' 天 ' + pad2(h) + ':' + pad2(m) + ':' + pad2(sec);
+                }
+                function tickBid() {
+                  var now = Math.floor(Date.now() / 1000);
+                  bidEl.querySelectorAll('.rt-auction-time').forEach(function (el) {
+                    var start = parseInt(el.dataset.start, 10);
+                    var end = parseInt(el.dataset.end, 10);
+                    var textEl = el.previousElementSibling;
+                    if (now < start) {
+                      if (textEl) textEl.textContent = '即將開始';
+                      el.textContent = formatCountdown(start - now);
+                    } else if (now < end) {
+                      if (textEl) textEl.textContent = '競標中';
+                      el.textContent = formatCountdown(end - now);
+                    } else {
+                      if (textEl) textEl.textContent = '競標已結束';
+                      el.textContent = '0 天 00:00:00';
+                    }
+                  });
+                }
+                tickBid();
+                setInterval(tickBid, 1000);
               }
-            });
-          }
-          tickBid();
-          setInterval(tickBid, 1000);
+            })
+            .catch(function(e) { console.error('prod api error:', e); });
         }
       })
       .catch(function (e) { console.error('pop_store.json error:', e); });
