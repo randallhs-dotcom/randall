@@ -332,7 +332,7 @@ $(".backtoTop").click(function () {
   function buildCard(item) {
     var price = Number(item.price).toLocaleString();
     var priceHtml = item.originalPrice
-      ? '<div class="price-group"><span class="old-price">原價＄' + Number(item.originalPrice).toLocaleString() + '</span><span class="sale-price">$<b>' + price + '</b></span></div>'
+      ? '<div class="price-group"><span class="old-price">原價＄' + Number(item.originalPrice).toLocaleString() + '</span><span class="sale-price">特價＄<b>' + price + '</b></span></div>'
       : '<div class="price">$<b>' + price + '</b></div>';
     return '<div class="grid-item" data-gno="' + item.gno + '">' +
       '<a href="https://www.ruten.com.tw/item/' + item.gno + '" target="_self">' +
