@@ -1,0 +1,95 @@
+@charset "utf-8";
+/* CSS Document */
+
+/********* 活動說明_另開視窗 *********/
+.blank.rulebg {
+  position: relative;
+  background: url() repeat;
+  padding: 30px 2px;
+}
+.blank.rule {
+  max-width: 1070px;
+  margin: 0 auto;
+  padding: 15px 15px 50px;
+  font-size: 18px;
+  line-height: 30px;
+  text-align: left;
+  color: #000;
+  font-family: "微軟正黑體";
+  background: #fff;
+}
+.card-body ul {
+  list-style-type: disc;
+  list-style-position: outside;
+  padding: 2px 12px;
+}
+.card-body ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding: 2px 12px;
+}
+.card-body ul li,
+.card-body ol li {
+  margin: 3px 0;
+}
+.card-body p {
+  color: black;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: left;
+  padding: 10px 0 5px 0;
+}
+.card-body h1 {
+  font-size: 26px;
+  line-height: 120%;
+  padding: 30px 0 20px 0;
+  color: #b02d1c;
+  font-weight: bold;
+  text-align: left;
+}
+.card-body h3 {
+  text-align: center;
+}
+.card-body h4 {
+  font-size: 20px;
+  line-height: 120%;
+  padding: 20px 0 10px 0;
+  font-weight: bold;
+  text-align: left;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    padding: 0;
+  }
+  .card {
+    transform: scale(1);
+  }
+  .card-body {
+    padding: 0.5rem;
+  }
+  .blank.rule {
+    font-size: 15px;
+    line-height: 1.3;
+    padding: 15px 10px 30px;
+  }
+  .card-body p,
+  .card-body ul li,
+  .card-body ol li {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .card-body h1 {
+    font-size: 20px;
+    padding-bottom: 0;
+  }
+  .card-body h4 {
+    padding-bottom: 0;
+  }
+  #footer {
+    padding-top: 10px;
+  }
+}
+
+/********* END// 活動說明_另開視窗 *********/
