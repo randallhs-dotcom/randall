@@ -40,6 +40,11 @@ push.sh
 # Agent 設定
 .agent/
 
+# morning-report 敏感檔案（token + 暫存資料）
+morning-report/token.json
+morning-report/vibe_reader_posts.json
+morning-report/x_author_posts.json
+
 # 暫時性報告與說明文件
 typography-analysis-report.md
 🚀_Figma_MCP_已就緒.txt

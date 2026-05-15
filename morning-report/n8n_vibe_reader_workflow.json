@@ -1,0 +1,48 @@
+{
+  "name": "每日抓取 @vibe_reader_tw 發文",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "每天早上 6 點觸發",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "command": "python3 /Users/randallhs/.config/morning-report/scrape_vibe_reader.py"
+      },
+      "id": "execute-scraper",
+      "name": "執行爬蟲",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [480, 300]
+    }
+  ],
+  "connections": {
+    "每天早上 6 點觸發": {
+      "main": [
+        [
+          {
+            "node": "執行爬蟲",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
