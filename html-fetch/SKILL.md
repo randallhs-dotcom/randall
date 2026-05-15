@@ -1,6 +1,6 @@
 ---
 name: html-fetch
-description: Connect a JSON API URL to an existing HTML page — fetches JSON, groups it by a category key, and renders it into pre-existing DOM slots (grid cards, tag lists, etc.). Use this skill whenever the user pastes a JSON endpoint URL (especially ruten.com.tw / pub.stage.ruten.com.tw / rtapi.ruten.com.tw) and asks for "資料串接", "API 串接", "串接到 HTML", "渲染到頁面", or provides an HTML page that needs to be wired up to an API. Also trigger when the user mentions category-to-section mapping (A to section02, B to section05 etc.) or wants cards / hashtag lists driven by a JSON feed. Produces a drop-in script block or a complete standalone HTML file using the project's house style (IIFE wrapper, ES5 var, string-concatenation templates, defensive response-shape parsing).
+description: 觸發條件：貼 JSON endpoint URL + 說「串接到 HTML」「資料串接」「API 串接」「渲染成卡片 / tag」，或提供 HTML 要接 API，或說分類代碼對應到哪個 section。輸出符合 Ruten 風格的 script block（IIFE、var、字串拼接、防禦性 response parsing）。
 ---
 
 # html-fetch
