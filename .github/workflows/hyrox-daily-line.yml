@@ -1,0 +1,39 @@
+name: HYROX Daily Notification
+
+on:
+  schedule:
+    # 7:30 AM Taipei (UTC+8) = 23:30 UTC previous day
+    - cron: '30 23 * * *'
+  workflow_dispatch:  # manual trigger for testing
+
+jobs:
+  send-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build training message
+        id: message
+        env:
+          TZ: Asia/Taipei
+        run: |
+          MESSAGE=$(python scripts/hyrox_daily_line.py --print-only)
+          echo "content<<EOF" >> $GITHUB_OUTPUT
+          echo "$MESSAGE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Send to ntfy.sh
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          curl -s \
+            -H "Title: HYROX 今日訓練 🏋️" \
+            -H "Priority: default" \
+            -H "Tags: muscle,running_woman" \
+            -d "${{ steps.message.outputs.content }}" \
+            "https://ntfy.sh/${NTFY_TOPIC}"
